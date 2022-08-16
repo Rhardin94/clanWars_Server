@@ -1,45 +1,14 @@
-const mongoose = require('mongoose');
-const { Clan } = require("../models");
+const seedClans = require('./clan-seeds');
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/clanwars', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => {
-  console.log('MONGO CONNECTION OPEN!!!');
-})
-.catch((err) => {
-  console.log(err);
-});
+const sequelize = require('../config/connection');
 
-const seedClans = [
-  {
-    name: "Goblins",
-    color: "Green",
-    points: 20
-  },
-  {
-    name: "Hots",
-    color: "Red",
-    points: 50
-  },
-  {
-    name: "Clues",
-    color: "Blue",
-    points: 100
-  },
-  {
-    name: "Duckies",
-    color: "Yellow",
-    points: 150
-  }
-];
+const seedAll = async () => {
+  await sequelize.sync({force: true});
+  console.log('\n----- DATABASE SYNCED -----\n');
+  await seedClans();
+  console.log('\n----- CLANS SEEDED -----\n');
 
-const seedDB = async () => {
-  await Clan.deleteMany({});
-  await Clan.insertMany(seedClans);
+  process.exit(0);
 };
 
-seedDB().then(() => {
-  mongoose.connection.close();
-})
+seedAll();

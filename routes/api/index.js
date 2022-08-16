@@ -7,7 +7,7 @@ const {
   createClan,
   updateClan,
   deleteClan
-} = require('../../controllers/clan-controller');
+} = require('../../controllers/clan-controller.js');
 
 // /api/clans
 router.route("/").get(getClans).post(createClan);
