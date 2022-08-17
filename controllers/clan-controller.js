@@ -16,6 +16,7 @@ const clanController = {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Accept");
     res.send("I'm awake!").end();
   },
+
   getClans(req, res) {
     Clan.findAll({})
       .then((clans) => res.json(clans))
