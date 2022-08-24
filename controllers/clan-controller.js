@@ -59,6 +59,23 @@ const clanController = {
       .catch((err) => res.status(400).json(err));
   },
 
+  addPoints(req, res) {
+    Clan.update({
+      points: points + req.body.points
+    }, {
+      where: {
+        id: req.params.clanId
+      },
+    })
+    .then(clans => { 
+      res.header("Access-Control-Allow-Origin", '*');
+      res.header("Access-Control-Allow-Credentials", true);
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+      res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+      res.staus(200).json(clans)
+    })
+  },
+
   updateClan(req, res) {
     Clan.update(req.body, {
         where: {
