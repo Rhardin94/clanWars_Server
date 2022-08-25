@@ -4,12 +4,14 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3001;
 const routes = require("./routes");
+const cors = require("cors");
 // const db = require("./config/connection");
 const sequelize = require('./config/connection');
 //Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));  
+app.use(cors());
 //Routing
 app.use(routes);
 //Mongoose Listener

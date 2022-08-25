@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Rhardin94/My-Portfolio#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.0",
     "mongoose": "^6.5.2",
