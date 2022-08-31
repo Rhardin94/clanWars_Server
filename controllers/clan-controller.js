@@ -2,111 +2,104 @@ const router = require('express').Router();
 const {
   Clan
 } = require('../models');
-// const {
-//   updateClan,
-//   createClan,
-//   getSingleClan,
-//   getClans
-// } = require('./mongoose-controller');
 
 // Controller for /api
 const clanController = {
-  // Wake up the server
+  // Wake up the server NEW
   wakeServer(req, res) {
-    res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    res.send("I'm awake!");
+    res.json({
+      message: 'Server is awake'
+    });
   },
-  // Get all clans
+  // Get all clans NEW
   getClans(req, res) {
     Clan.findAll({})
-      .then(clans => { 
-        res.header("Access-Control-Allow-Origin", '*');
-        res.header("Access-Control-Allow-Credentials", true);
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-        res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-        res.json(clans)
-      })
-      .catch((err) => res.status(500).json(err));
-      },
-  // Get a single clan
+      .then(dbClanData => res.json(dbClanData))
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  // Get a single clan NEW
   getSingleClan(req, res) {
     Clan.findOne({
         where: {
-          id: req.params.clanId,
-        },
+          id: req.params.clanId
+        }
       })
-      .then(clans => { 
-        console.log(clans);
-        res.header("Access-Control-Allow-Origin", '*');
-        res.header("Access-Control-Allow-Credentials", true);
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-        res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-        res.json(clans)
+      .then(dbClanData => {
+        if (!dbClanData) {
+          res.status(404).json({
+            message: 'No clan found with this id'
+          });
+          return;
+        }
+        res.json(dbClanData);
       })
-      .catch((err) => res.status(400).json(err));
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
   // Create a clan
   createClan(req, res) {
+
     Clan.create(req.body)
-    .then(clans => { 
-      res.header("Access-Control-Allow-Origin", '*');
-      res.header("Access-Control-Allow-Credentials", true);
-      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-      res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-      res.json(clans);
-    })
-      .catch((err) => res.status(400).json(err));
+      .then(dbClanData => res.json(dbClanData))
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
-  // Add points to a clan by id
+
+  // Add points to a clan by id NEW
   addPoints(req, res) {
     Clan.findOne({where: {id: req.params.clanId}})
-    .then(clan => {
-      clan.points += req.body.points;
-      clan.save();
-      res.header("Access-Control-Allow-Origin", '*');
-      res.header("Access-Control-Allow-Credentials", true);
-      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-      res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-      res.json(clan);
+    .then(dbClanData => {
+      dbClanData.points += req.body.points;
+      dbClanData.save();
+      res.json(dbClanData);
     })
     .catch((err) => res.status(400).json(err));
   },
-  // Update a clan
+
+  //Manually update a clan by id
   updateClan(req, res) {
-    Clan.update(req.body, {
-        where: {
-          id: req.params.clanId,
-        },
+    Clan.update(req.body, { where: { id: req.params.clanId } })
+      .then(dbClanData => {
+        if (!dbClanData) {
+          res.status(404).json({
+            message: 'No clan found with this id'
+          });
+          return;
+        }
+        res.json(dbClanData);
       })
-      .then(clans => { 
-        res.header("Access-Control-Allow-Origin", '*');
-        res.header("Access-Control-Allow-Credentials", true);
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-        res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-        res.json(clans);
-      })
-      .catch((err) => res.status(400).json(err));
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
-  // Delete a clan
+  // Delete a clan by id
   deleteClan(req, res) {
     Clan.destroy({
         where: {
-          id: req.params.clanId,
-        },
+          id: req.params.clanId
+        }
       })
-      .then(clans => { 
-        res.header("Access-Control-Allow-Origin", '*');
-        res.header("Access-Control-Allow-Credentials", true);
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-        res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-        res.json(clans)
+      .then(dbClanData => {
+        if (!dbClanData) {
+          res.status(404).json({
+            message: 'No clan found with this id'
+          });
+          return;
+        }
+        res.json(dbClanData);
       })
-      .catch((err) => res.status(400).json(err));
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   }
-
 };
-
 module.exports = clanController;
