@@ -8,10 +8,12 @@ const routes = require("./routes");
 // const db = require("./config/connection");
 const sequelize = require('./config/connection');
 //Middleware
+app.use(cors( {
+  origin: "https://rhardin94.github.io/clanWars_FrontEnd/"
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));  
-app.use(cors());
 //Routing
 app.use(routes);
 //Start the server
