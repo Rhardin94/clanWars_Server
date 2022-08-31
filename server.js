@@ -3,16 +3,12 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3001;
-const routes = require("./routes");
 const cors = require("cors");
+const routes = require("./routes");
 // const db = require("./config/connection");
 const sequelize = require('./config/connection');
 //Middleware
-app.use(cors( {
-  origin: "*",
-  optionsSuccessStatus: 204
-}));
-app.options('*', cors())
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));  
