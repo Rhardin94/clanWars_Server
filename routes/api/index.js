@@ -11,8 +11,6 @@ const {
   deleteClan
 } = require('../../controllers/clan-controller.js');
 
-router.use(cors());
-
 // /api/wake
 router.route("/wake").get(wakeServer);
 
