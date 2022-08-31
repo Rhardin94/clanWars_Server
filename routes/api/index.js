@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const cors = require('cors');
 
 const {
   wakeServer,
@@ -9,6 +10,8 @@ const {
   updateClan,
   deleteClan
 } = require('../../controllers/clan-controller.js');
+
+router.use(cors());
 
 // /api/wake
 router.route("/wake").get(wakeServer);
