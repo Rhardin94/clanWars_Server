@@ -8,8 +8,10 @@ const cors = require("cors");
 // const db = require("./config/connection");
 const sequelize = require('./config/connection');
 //Middleware
-app.use(cors());
-app.options('*', cors());
+app.use(cors( {
+  origin: "*",
+  optionsSuccessStatus: 200
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));  
