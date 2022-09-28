@@ -7,6 +7,7 @@ const {
   getSingleClan,
   createClan,
   addPoints,
+  subtractPoints,
   updateClan,
   deleteClan
 } = require('../../controllers/clan-controller.js');
@@ -18,7 +19,7 @@ router.route("/wake").get(wakeServer);
 router.route("/").get(getClans).post(createClan);
 
 // /api/clans/:clanId
-router.route("/:clanId").get(getSingleClan).post(addPoints).put(updateClan).delete(deleteClan);
+router.route("/:clanId").get(getSingleClan).post(addPoints).put(updateClan).delete(subtractPoints);
 
 
 module.exports = router;

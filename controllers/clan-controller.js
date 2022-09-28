@@ -63,6 +63,17 @@ const clanController = {
     .catch((err) => res.status(400).json(err));
   },
 
+  // Subtract points from a clan by id NEW
+  subtractPoints(req, res) {
+    Clan.findOne({where: {id: req.params.clanId}})
+    .then(dbClanData => {
+      dbClanData.points -= req.body.points;
+      dbClanData.save();
+      res.json(dbClanData);
+    })
+    .catch((err) => res.status(400).json(err));
+  },
+
   //Manually update a clan by id
   updateClan(req, res) {
     Clan.update(req.body, { where: { id: req.params.clanId } })
