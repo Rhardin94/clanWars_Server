@@ -19,7 +19,10 @@ router.route("/wake").get(wakeServer);
 router.route("/").get(getClans).post(createClan);
 
 // /api/clans/:clanId
-router.route("/:clanId").get(getSingleClan).post(addPoints).put(updateClan).delete(subtractPoints);
+router.route("/:clanId").get(getSingleClan).post(addPoints).put(subtractPoints);
+
+// /api/clans/:clanId/manualPoints;
+router.route("/:clanId/manualPoints").put(updateClan);
 
 
 module.exports = router;
